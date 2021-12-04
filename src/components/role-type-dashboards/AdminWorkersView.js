@@ -40,7 +40,7 @@ export default function Sidebar() {
   const history = useHistory()
 
   async function addWorker(){
-    alert("Add worker!")
+    /* alert("Add worker!") */
   }
 
   async function handleLogout() {
@@ -108,8 +108,10 @@ export default function Sidebar() {
                                     Add Worker
                                     </li>
                                 </Link> */}
-                                <Button variant="link" onClick={addWorker}>
+                                <Button variant="link">
+                                <Link to="/add-worker" className="link">
                                     Add Worker
+                                </Link>
                                 </Button>
                             </ul>
                         </div>

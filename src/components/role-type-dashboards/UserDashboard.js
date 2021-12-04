@@ -8,21 +8,26 @@ import { PermIdentity, Storefront, DirectionsCar } from "@material-ui/icons";
 export default function UserDashboard() {
   const [loading, setLoading] = useState(false);
   const [parkingSpots, setParkingSpots] = useState([]);
+  const [size, setSize] = useState([]);
   const [userSelectedLocation, setUserLocation] = useState([]);
   const [textInput, setTextInput] = useState([]);
   const { currentUser } = useAuth();
   // const userlocation='airport';
-  async function getParkingSpots() {
-    const parkingSpotsCollection = firebase
-      .firestore()
-      .collection("parking-spots");
+  async function getParkingSpots(userLocation, size) {
+    const parkingSpotsCollection = firebase.firestore().collection("parking-spots");
     setLoading(true);
+    // async function getSize() {
+    //   const sizeCollection = firebase.firestore().collection("size");
+    //   setLoading(true);
+    // }
     parkingSpotsCollection.get().then((querySnapshot) => {
-      const items = [];
+      // sizeCollection.get().then((querySnapshot) => {
+        const items = [];
       querySnapshot.forEach((doc) => {
         const ps = doc.data();
         const id = doc.id;
-          if (ps.location===userSelectedLocation) items.push(doc.data());
+          if (ps.location===userLocation &&  ps.size === size) 
+            items.push(doc.data());
       });
       // if (ps.location === userLocation) {
       //   items.push({ id, ...ps });
@@ -50,7 +55,7 @@ export default function UserDashboard() {
     console.log(textInput);
     const userLocation = textInput;
     setUserLocation(userLocation);
-    getParkingSpots(userLocation);
+    getParkingSpots(userLocation, size);
   }
  
   function handleReserveSlot(id) {
@@ -64,6 +69,9 @@ export default function UserDashboard() {
   const handleChange = (event) => {
     setTextInput(event.target.value);
   };
+  const handleSizeChange = (event) => {
+    setSize(event.target.value);
+  }
  
   // function handleReserveSlot() {
   //   alert("handleReserveSlot");
@@ -116,6 +124,11 @@ export default function UserDashboard() {
                 // onChange={handleChange}
                 style={{ height: "40px" }}
                 placeholder="Enter Checkout Time"
+              />
+              <input
+                onChange={handleSizeChange}
+                style={{ height: "40px" }}
+                placeholder="Enter Size of the Vehicle"
               />
               <button
                 class="btn btn-primary"
@@ -203,5 +216,5 @@ export default function UserDashboard() {
         </div>
       )}
     </>
-  );
+  );                          
 }

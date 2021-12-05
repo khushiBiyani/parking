@@ -171,21 +171,36 @@ export default function Sidebar() {
   const [loading, setLoading] = useState(false);
   const [userList, setUserList] = useState([]);
   const { logout } = useAuth()
-  
-  function getAllUsers(){
-      const usersCollection = firebase.firestore().collection('workers')
-      setLoading(true);
-      usersCollection.get().then((querySnapshot) => {
-        const items = [];
-        querySnapshot.forEach((doc) => {
-            const user = doc.data();
-            if(user.roleId === 2)
-              items.push(doc.data());
-        });
-        setUserList(items);
-        setLoading(false);
-      });
+
+
+
+  async function getAllUsers() {
+    setLoading(true)
+    await fetch('http://localhost:8080/worker/list')
+    .then(res => res.json())
+    .then((data) => {
+        console.log(data);
+        setUserList(data)
+    })
+    .catch(console.log)
+    setLoading(false);
   }
+
+  
+  // function getAllUsers(){
+  //     const usersCollection = firebase.firestore().collection('workers')
+  //     setLoading(true);
+  //     usersCollection.get().then((querySnapshot) => {
+  //       const items = [];
+  //       querySnapshot.forEach((doc) => {
+  //           const user = doc.data();
+  //           if(user.roleId === 2)
+  //             items.push(doc.data());
+  //       });
+  //       setUserList(items);
+  //       setLoading(false);
+  //     });
+  // }
 
   const history = useHistory()
 

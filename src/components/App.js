@@ -13,6 +13,7 @@ import UserHistoryboard from './role-type-dashboards/HistoryView'
 import WorkerSignUp from './role-type-dashboards/WorkerSignUp'
 import AdminWorkersView from './role-type-dashboards/AdminWorkersView'
 import services from './role-type-dashboards/services'
+import rating from './role-type-dashboards/rating'
 function App() {
   return (
     <Container
@@ -27,6 +28,7 @@ function App() {
               <PrivateRoute exact path="/history" component={UserHistoryboard} />
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
               <PrivateRoute path="/services" component={services} />
+              <PrivateRoute path="/rating" component={rating} />
               <Route path="/signup" component={Signup} />
               <Route path="/add-worker" component={ WorkerSignUp} />
               <Route path="/login" component={Login} />

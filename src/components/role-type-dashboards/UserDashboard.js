@@ -11,6 +11,7 @@ export default function UserDashboard() {
   const [size, setSize] = useState([]);
   const [userSelectedLocation, setUserLocation] = useState([]);
   const [textInput, setTextInput] = useState([]);
+  const [selectedParkingSpot, setSelectedParkingSpot] = useState([]);
   const { currentUser } = useAuth();
   // const userlocation='airport';
   async function getParkingSpots(userLocation, size) {
@@ -24,9 +25,9 @@ export default function UserDashboard() {
         const items = [];
       querySnapshot.forEach((doc) => {
         const ps = doc.data();
-        //const id = doc.id;
+        const id = doc.id;
           if (ps.location===userLocation &&  ps.size === size) 
-            items.push(doc.data());
+            items.push({id, ...doc.data()});
       });
       // if (ps.location === userLocation) {
       //   items.push({ id, ...ps });
@@ -64,6 +65,7 @@ export default function UserDashboard() {
       available: false,
       reservedBy: currentUser.email,
     });
+    setSelectedParkingSpot(id);
   }
   const handleChange = (event) => {
     setTextInput(event.target.value);

@@ -7,11 +7,12 @@ import { PermIdentity, DirectionsCar } from "@material-ui/icons";
 export default function UserDashboard() {
     const [loading, setLoading] = useState(false);
     const [worker, setWorker] = useState([]);
-
+    const [selectedParkingSpot] = useState([]);
     const { currentUser } = useAuth();
     const workerCollection = firebase.firestore().collection("workers");
     function handleReserveSlot(id) {
         console.log("handleReserveSlot" + id);
+        console.log("selectedParkingSpot" + selectedParkingSpot);
         console.log(currentUser.email);
         firebase.firestore().collection("workers").doc(id).update({
           available: false,

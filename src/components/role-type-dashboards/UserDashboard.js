@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import firebase from "../../firebase";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext"
@@ -25,7 +25,7 @@ export default function UserDashboard() {
         const items = [];
       querySnapshot.forEach((doc) => {
         const ps = doc.data();
-        const id = doc.id;
+        //const id = doc.id;
           if (ps.location===userLocation &&  ps.size === size) 
             items.push(doc.data());
       });

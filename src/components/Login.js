@@ -58,10 +58,10 @@ export default function Login() {
     <div style={{backgroundImage: `url("https://i.ibb.co/c2N6H3y/ithink2.png")`,backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        width: '200vw',
+        minWidth: '100vw',
         height: '100vh'
     }}>
-    <div className="w-100" style={{maxWidth: "400px", marginLeft: '580px', marginTop: '65px'}}>
+    <div className="w-100" style={{maxWidth: "400px", marginLeft: '800px', marginTop: '250px'}}>
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Log In</h2>
@@ -91,7 +91,7 @@ export default function Login() {
 
         </Card.Body>
       </Card>
-      <div className="w-100 text-center mt-2">
+      <div className="w-100 text-center mt-2" style={{color:"white"}}>
         Need an account? <Link to="/signup">Sign Up</Link>
       </div>
     </div>

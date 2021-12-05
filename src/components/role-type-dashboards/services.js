@@ -153,17 +153,16 @@ export default function Services() {
                               </div>
                               </div>
                           </div>
-
-                          <Link to="/" className="link">
+                          <Link to="/ratings" className="link">
                               <PermIdentity className="sidebarIcon" />
-                              Go Home
+                              Ratings
                           </Link>
                       </div>
                     )}
                     
                     {!paymentConfirmation && (
                       <div class="container" style={{ display: "flex", marginTop: "10px" }}>
-                        <div className="sidebar">
+                        <div className="sidebar" style={{ maxWidth:"180px" }}>
                           <div className="sidebarWrapper">
                             <div className="sidebarMenu">
                               <h3 className="sidebarTitle">Dashboard</h3>
@@ -174,52 +173,17 @@ export default function Services() {
                                     Available
                                   </li>
                                 </Link>
-                                {/* <Link to="/history" className="link">
-                                  <li className="sidebarListItem">
-                                    <Storefront className="sidebarIcon" />
-                                    History
-                                  </li>
-                                </Link> */}
                               </ul>
                             </div>
                           </div>
                         </div>
-                        <div class="home">
-                          {/* <div style={{ height: "60px" }}>
-                            <input
-                              onChange={handleChange}
-                              style={{ height: "40px" }}
-                              placeholder="Enter Location"
-                            />
-                            <input
-                              // onChange={handleChange}
-                              style={{ height: "40px" }}
-                              placeholder="Enter Checkin Time"
-                            />
-                            <input
-                              // onChange={handleChange}
-                              style={{ height: "40px" }}
-                              placeholder="Enter Checkout Time"
-                            />
-                            <input
-                              onChange={handleSizeChange}
-                              style={{ height: "40px" }}
-                              placeholder="Enter Size of the Vehicle"
-                            /> */}
-                            {/* <button
-                              class="btn btn-primary"
-                              style={{ display: "inline-block", marginLeft: "20px" }}
-                              onClick={handlerUserLocation}
-                            >
-                              Retrieve Parking Spots
-                            </button> */}
-                          </div>
+
                           {/* {userSelectedLocation.length > 0 && ( */}
                             <div>
                               <div class="featured">
                                 <div class="featuredItem">
                                   <span class="featuredTitle">
-                                    Available Serives:{" "}
+                                    Available Services: Wash/Dry Clean
                                     {/* <b>{userSelectedLocation}</b> */}
                                   </span>
                                   {/* <div class="featuredMoneyContainer">

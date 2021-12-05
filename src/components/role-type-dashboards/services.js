@@ -151,7 +151,7 @@ export default function Services() {
                                 <div class="widgetSmUser">
                                   <span class="">{worker.id}</span>
                                   <span class="widgetSmUserTitle">
-                                    Service Size: {worker.job}
+                                    Service: {worker.job}
                                   </span>
                                 </div>
                                 <Link to="/services">

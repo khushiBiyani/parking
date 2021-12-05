@@ -61,11 +61,11 @@ export default function UserDashboard() {
   function handleReserveSlot(id) {
     console.log("handleReserveSlot" + id);
     console.log(currentUser.email);
-    firebase.firestore().collection("parking-spots").doc(id).update({
-      available: false,
-      reservedBy: currentUser.email,
-    });
-    setSelectedParkingSpot(id);
+    // firebase.firestore().collection("parking-spots").doc(id).update({
+    //   available: false,
+    //   reservedBy: currentUser.email,
+    // });
+    // setSelectedParkingSpot(id);
   }
   const handleChange = (event) => {
     setTextInput(event.target.value);
@@ -174,7 +174,13 @@ export default function UserDashboard() {
                               Spot Size: {parkingSpot.size}
                             </span>
                           </div>
-                          <Link to="/services">
+                          {/* <Link to="/services" > */}
+                          <Link
+                            to={{
+                              pathname: "/services",
+                              state: { ...parkingSpot }
+                            }}
+                          >
                           {parkingSpot.available && (
                             <button
                               class="btn btn-primary"

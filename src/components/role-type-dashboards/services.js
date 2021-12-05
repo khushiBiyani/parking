@@ -3,8 +3,13 @@ import firebase from "../../firebase";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext"
 import { PermIdentity, DirectionsCar } from "@material-ui/icons";
+import {useLocation} from "react-router-dom";
+import { useHistory } from "react-router-dom"
+import  { Redirect } from 'react-router-dom'
 
-export default function UserDashboard() {
+export default function Services() {
+    const history = useHistory()
+    let data = useLocation();
     const [loading, setLoading] = useState(false);
     const [worker, setWorker] = useState([]);
     const [selectedParkingSpot] = useState([]);
@@ -14,23 +19,42 @@ export default function UserDashboard() {
         console.log("handleReserveSlot" + id);
         console.log("selectedParkingSpot" + selectedParkingSpot);
         console.log(currentUser.email);
-        firebase.firestore().collection("workers").doc(id).update({
-          available: false,
-          reservedBy: currentUser.email,
-        });
+        const price  = 100+ 25 * 1;
+
+        if(window.confirm(`The price is ${price}. Do you want to continue.`))
+        { 
+          // Confirm parking spot is reserved
+          if(data?.state?.id){
+            firebase.firestore().collection("parking-spots").doc(data.state.id).update({
+              available: false,
+              reservedBy: currentUser.email,
+            });
+          }
+          // Confirm Worker is reserved
+          if(id){
+            firebase.firestore().collection("workers").doc(id).update({
+              available: false,
+              reservedBy: currentUser.email,
+            });
+          }
+          alert("Thank you, you order is processed!");
+        }
+
+        history.push("/history")
       }
     async function getWorkers(worker) {
       setLoading(true);
-       workerCollection.get().then((querySnapshot) => {
-          const items = [];
-          querySnapshot.forEach((doc) => {
-            //const worker = doc.data();
-            const id = doc.id;
-            //   if (ps.location===userLocation &&  ps.size === size) 
-            items.push({id, ...doc.data()});
-          });
-          setWorker(items);
-       })
+      workerCollection.get().then((querySnapshot) => {
+        const items = [];
+        querySnapshot.forEach((doc) => {
+          //const worker = doc.data();
+          const id = doc.id;
+          //   if (ps.location===userLocation &&  ps.size === size) 
+          items.push({id, ...doc.data()});
+        });
+        setWorker(items);
+        //history.push("/")
+      })
        setLoading(false);
     }
     

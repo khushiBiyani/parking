@@ -26,11 +26,11 @@ function App() {
               <PrivateRoute exact path="/workers" component={AdminWorkersView} />
               <PrivateRoute exact path="/history" component={UserHistoryboard} />
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
+              <PrivateRoute path="/services" component={services} />
               <Route path="/signup" component={Signup} />
               <Route path="/add-worker" component={ WorkerSignUp} />
               <Route path="/login" component={Login} />
               <Route path="/Otp" component={Otp} />
-              <Route path="/services" component={services} />
               <Route path="/forgot-password" component={ForgotPassword} />
             </Switch>
           </AuthProvider>

@@ -130,7 +130,7 @@ export default function UserHistoryboard() {
                                                                     
                                                                     <DirectionsCar style={{"width":"80px", "height": "80px"}}/>
                                                                     <div class="widgetSmUser">
-                                                                        <span class="">{parkingSpot.id}</span>
+                                                                        <span class="">{parkingSpot.slot}</span>
                                                                         <span class="widgetSmUserTitle">Spot Size: {parkingSpot.size}</span>
                                                                         <span class="widgetSmUserTitle">Location : {parkingSpot.location}</span>
                                                                     </div>

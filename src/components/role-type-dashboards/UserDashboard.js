@@ -169,7 +169,7 @@ export default function UserDashboard() {
                             style={{ width: "80px", height: "80px" }}
                           />
                           <div class="widgetSmUser">
-                            <span class="">{parkingSpot.id}</span>
+                            <span class="">{parkingSpot.slot}</span>
                             <span class="widgetSmUserTitle">
                               Spot Size: {parkingSpot.size}
                             </span>

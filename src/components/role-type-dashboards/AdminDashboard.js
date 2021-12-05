@@ -122,7 +122,7 @@ import { Person } from "@material-ui/icons";
 
   async function getAllUsers() {
     setLoading(true)
-    await fetch('http://localhost:8080/user/list')
+    await fetch('http://localhost:8080/admin/user/list')
     .then(res => res.json())
     .then((data) => {
         console.log(data);

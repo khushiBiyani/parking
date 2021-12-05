@@ -176,7 +176,7 @@ export default function Sidebar() {
 
   async function getAllUsers() {
     setLoading(true)
-    await fetch('http://localhost:8080/worker/list')
+    await fetch('http://localhost:8080/admin/worker/list')
     .then(res => res.json())
     .then((data) => {
         console.log(data);

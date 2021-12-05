@@ -208,7 +208,7 @@ export default function UserDashboard() {
                               <DirectionsCar
                                 style={{ width: "80px", height: "80px" }}
                               />
-                            <span class="widgetLgName">{parkingSpot.id}</span>
+                            <span class="widgetLgName">{parkingSpot.slot}</span>
                           </td>
                           <td class="widgetLgDate">{parkingSpot.size}</td>
                           <td class="widgetLgDate">{parkingSpot.location}</td>

@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import firebase from '../../firebase'
+import { Person } from "@material-ui/icons";
  
  
-export default function WorkerDashboard() {
+ export default function WorkerDashboard() {
+  const [error] = useState("")
   const [loading, setLoading] = useState(false);
-  const [workerServices, setWorkerServices] = useState([]);
- 
-  async function getWorkerServices() {
-      const servicesCollection = firebase.firestore().collection('services')
+  const [userList, setUserList] = useState([]);
+  function getAllUsers(){
+      const usersCollection = firebase.firestore().collection('services')
       setLoading(true);
-      servicesCollection.get().then((querySnapshot) => {
+      usersCollection.get().then((querySnapshot) => {
         const items = [];
         querySnapshot.forEach((doc) => {
-            //const ps = doc.data();
-            //if(ps.available)
-            items.push(doc.data());
+          /* const user = doc.data();
+            if(user.roleId === 3) */
+                items.push(doc.data());
         });
-        setWorkerServices(items);
+        setUserList(items);
         setLoading(false);
       });
  
@@ -32,7 +33,7 @@ export default function WorkerDashboard() {
     // setLoading(false);
   }
  
-  console.log("worker services :" +workerServices)
+  /* console.log("worker services :" +workerServices) */
   //http://localhost:8080/availableSpots?from=8&to=9
  
   
@@ -41,7 +42,7 @@ export default function WorkerDashboard() {
   }
  */
   useEffect(() => {
-    getWorkerServices();
+    getAllUsers();
     // eslint-disable-next-line
   }, []); 
   
@@ -49,29 +50,37 @@ export default function WorkerDashboard() {
     <>
         {loading ? <h1>Loading...</h1> : null}
         {!loading && 
-            <div class="home">
-                    
-                    <div class="homeWidgets" style={{ display: "flex", margin: "20px"}}>
-                    <div class="widgetSm">
-                        <span class="widgetSmTitle">Services to provide</span>
-                        <ul class="widgetSmList">
-                        {workerServices.map((workerServices) => (
-                        <li class="widgetSmListItem">
-                        <img src="https://i.pinimg.com/originals/95/69/69/956969895c373bd435ccaf2c2e1de4f2.jpg" alt="" class="widgetSmImg"/>
-                        <div class="widgetSmUser">
-                            <span class="widgetSmUserTitle">{workerServices.id}</span>
-                            <span class="widgetSmUserTitle">{workerServices.service}</span>
-                            <span class="widgetSmUserTitle">{workerServices.time}</span>
-                            <span class="widgetSmUserTitle">{workerServices.user}</span>
-                            <span class="widgetSmUserTitle">{workerServices.payment}</span>
-                        </div>
-                        {/* <button class="widgetSmButton" onClick={handleReserveSlot}><svg class="MuiSvgIcon-root widgetSmIcon" focusable="false" viewBox="0 0 24 24" aria-hidden="true" ><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path></svg>Reserve</button> */}
-                        </li>
-                        ))}
-                        </ul>
-                    </div>
-                    </div>
-            </div>    
+          <div class="homeWidgets" style={{ display: "flex", margin: "20px"}}>
+              <div class="widgetLg">
+                <h3 class="widgetLgTitle">List of services to provide</h3>
+                <table class="widgetLgTable">
+                    <tr class="widgetLgTr">
+                      <th class="widgetLgTh">Id</th>
+                      <th class="widgetLgTh">Service</th>
+                      <th class="widgetLgTh">User</th>
+                      <th class="widgetLgTh">Time</th>
+                      <th class="widgetLgTh">Payment</th>
+                      {/* <th class="widgetLgTh">Status</th> */}
+                    </tr> 
+                {userList.map((services) => (
+                    <tr class="widgetLgTr">
+                      <td class="widgetLgUser">
+                          <Person
+                            style={{ width: "80px", height: "80px" }}
+                          />
+                        <span class="widgetLgName">{services.id}</span>
+                      </td>
+                      {/* <td class="widgetLgDate">{services.id}</td> */}
+                      <td class="widgetLgDate">{services.job}</td>
+                      <td class="widgetLgTime">{services.user}</td>
+                      <td class="widgetLgAmount">{services.time}</td>
+                      <td class="widgetLgAmount">₹{services.payment}</td>
+                      {/* <td class="widgetLgStatus"><button class="widgetLgButton Booked">Active</button></td> */}
+                    </tr>
+                ))}
+                </table>
+              </div>
+            </div>   
                 
         }
     </>

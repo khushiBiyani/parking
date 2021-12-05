@@ -253,7 +253,7 @@ export default function Services() {
                                         {worker.available && (
                                           <button
                                             class="btn btn-primary"
-                                            onClick={() => handleReserveSlot(worker.id, worker.hourlyRate ? worker.hourlyRate: 25 )}
+                                            onClick={() => handleReserveSlot(worker.id, worker.hourlyRate ? worker.hourlyRate: 100 )}
                                           >
                                             <svg
                                               class="MuiSvgIcon-root widgetSmIcon"

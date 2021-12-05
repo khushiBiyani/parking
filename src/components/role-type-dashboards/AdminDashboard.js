@@ -110,24 +110,47 @@ import {
 import { Link } from "react-router-dom";
 import { Person } from "@material-ui/icons";
 
-export default function Sidebar() {
-  const [error] = useState("")
-  const [loading, setLoading] = useState(false);
+
+
+
+  export default function Sidebar() {
+   const [error] = useState("")
+   const [loading, setLoading] = useState(false);
   const [userList, setUserList] = useState([]);
-  function getAllUsers(){
-      const usersCollection = firebase.firestore().collection('users')
-      setLoading(true);
-      usersCollection.get().then((querySnapshot) => {
-        const items = [];
-        querySnapshot.forEach((doc) => {
-          const user = doc.data();
-            if(user.roleId === 3)
-                items.push(doc.data());
-        });
-        setUserList(items);
-        setLoading(false);
-      });
+
+
+
+  async function getAllUsers() {
+    setLoading(true)
+    await fetch('http://localhost:8080/user/list')
+    .then(res => res.json())
+    .then((data) => {
+        console.log(data);
+        setUserList(data)
+    })
+    .catch(console.log)
+    setLoading(false);
   }
+
+
+
+
+
+
+//   function getAllUsers(){
+//       const usersCollection = firebase.firestore().collection('users')
+//       setLoading(true);
+//       usersCollection.get().then((querySnapshot) => {
+//         const items = [];
+//         querySnapshot.forEach((doc) => {
+//           const user = doc.data();
+//             if(user.roleId === 3)
+//                 items.push(doc.data());
+//         });
+//         setUserList(items);
+//         setLoading(false);
+//       });
+//   }
 
   useEffect(() => {
     getAllUsers();
@@ -215,6 +238,4 @@ export default function Sidebar() {
       }
     </>
   );
-}
-
-
+ }

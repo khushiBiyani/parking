@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import firebase from "../../firebase";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext"
-import { PermIdentity, Storefront, DirectionsCar } from "@material-ui/icons";
+import { PermIdentity, Storefront, DirectionsCar, LocalCarWash } from "@material-ui/icons";
 // import userEvent from "@testing-library/user-event";
  
 export default function UserDashboard() {
@@ -110,7 +110,7 @@ export default function UserDashboard() {
             </div>
           </div>
           <div class="home">
-            <div style={{ height: "60px" }}>
+            <div>
               <input
                 onChange={handleChange}
                 style={{ height: "40px" }}
@@ -160,7 +160,7 @@ export default function UserDashboard() {
                   class="homeWidgets"
                   style={{ display: "flex", margin: "20px" }}
                 >
-                  <div class="widgetSm">
+                  {/* <div class="widgetSm">
                     <span class="widgetSmTitle">Parking Spots</span>
                     <ul class="widgetSmList">
                       {parkingSpots.map((parkingSpot) => (
@@ -174,7 +174,7 @@ export default function UserDashboard() {
                               Spot Size: {parkingSpot.size}
                             </span>
                           </div>
-                          {/* <Link to="/services" > */}
+                          
                           <Link
                             to={{
                               pathname: "/services",
@@ -216,7 +216,76 @@ export default function UserDashboard() {
                         </li>
                       ))}
                     </ul>
+                  </div> */}
+
+                  <div class="widgetLg">
+                    <h3 class="widgetLgTitle">List of users</h3>
+                    <table class="widgetLgTable">
+                        <tr class="widgetLgTr">
+                          <th class="widgetLgTh">Parking Slot</th>
+                          <th class="widgetLgTh">Size</th>
+                          <th class="widgetLgTh">Location</th>
+                          <th class="widgetLgTh">Hourly Rate</th>
+                          <th class="widgetLgTh">Status</th>
+                        </tr> 
+                    {parkingSpots.map((parkingSpot) => (
+                        <tr class="widgetLgTr">
+                          <td class="widgetLgUser">
+                              <DirectionsCar
+                                style={{ width: "80px", height: "80px" }}
+                              />
+                            <span class="widgetLgName">{parkingSpot.id}</span>
+                          </td>
+                          <td class="widgetLgDate">{parkingSpot.size}</td>
+                          <td class="widgetLgDate">{parkingSpot.location}</td>
+                          <td class="widgetLgTime">{parkingSpot.hourlyRate ? parkingSpot.hourlyRate : "100"}</td>
+                          <td class="widgetLgStatus">
+                          {parkingSpot.available && (
+                          <Link
+                            to={{
+                              pathname: "/services",
+                              state: { ...parkingSpot }
+                            }}
+                          >
+                            <button
+                              class="btn btn-primary"
+                              onClick={() => handleReserveSlot(parkingSpot.id)}
+                            >
+                              <svg
+                                class="MuiSvgIcon-root widgetSmIcon"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                              >
+                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
+                              </svg>
+                              Reserve
+                            </button>
+                            </Link>
+                          )}
+                          {!parkingSpot.available && (
+                              <button
+                                class="btn btn-secondary"
+                                onClick={() => alert("Aleready reserved!")}
+                              >
+                                <svg
+                                  class="MuiSvgIcon-root widgetSmIcon"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                  aria-hidden="true"
+                                >
+                                  <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
+                                </svg>
+                                Reserve
+                              </button>
+                          )}
+                          
+                          </td>
+                        </tr>
+                    ))}
+                    </table>
                   </div>
+
                 </div>
               </div>
             )}

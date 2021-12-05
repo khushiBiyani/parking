@@ -21,7 +21,6 @@ export default function UserDashboard() {
     //   setLoading(true);
     // }
     parkingSpotsCollection.get().then((querySnapshot) => {
-      // sizeCollection.get().then((querySnapshot) => {
         const items = [];
       querySnapshot.forEach((doc) => {
         const ps = doc.data();
@@ -173,6 +172,7 @@ export default function UserDashboard() {
                               Spot Size: {parkingSpot.size}
                             </span>
                           </div>
+                          <Link to="/services">
                           {parkingSpot.available && (
                             <button
                               class="btn btn-primary"
@@ -188,7 +188,7 @@ export default function UserDashboard() {
                               </svg>
                               Reserve
                             </button>
-                          )}
+                          )}</Link>
                           {!parkingSpot.available && (
                             <button
                               class="btn btn-secondary"

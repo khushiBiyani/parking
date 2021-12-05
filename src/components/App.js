@@ -12,6 +12,7 @@ import UpdateProfile from "./UpdateProfile"
 import UserHistoryboard from './role-type-dashboards/HistoryView'
 import WorkerSignUp from './role-type-dashboards/WorkerSignUp'
 import AdminWorkersView from './role-type-dashboards/AdminWorkersView'
+import services from './role-type-dashboards/services'
 function App() {
   return (
     <Container
@@ -29,6 +30,7 @@ function App() {
               <Route path="/add-worker" component={ WorkerSignUp} />
               <Route path="/login" component={Login} />
               <Route path="/Otp" component={Otp} />
+              <Route path="/services" component={services} />
               <Route path="/forgot-password" component={ForgotPassword} />
             </Switch>
           </AuthProvider>

@@ -28,50 +28,9 @@
 //     firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
 //         .then((confirmationResult) => {
 //           // SMS sent. Prompt user to type the code from the message, then sign the
-//           // user in with confirmationResult.confirm(code).
-//           window.confirmationResult = confirmationResult;
-//           console.log("OTP has been sent")
-//           // ...
-//         }).catch((error) => {
-//           // Error; SMS not sent
-//           // ...
-//           console.log("SMS not sent")
-//         });
-//   }
-//   const onSubmitOTP = (e) =>{
-    
-//     e.preventDefault()
-//     const code = this.state.otp
-//     console.log(code)
-//     window.confirmationResult.confirm(code).then((result) => {
-//       // User signed in successfully.
-//       const user = result.user;
-//       console.log(JSON.stringify(user))
-//       alert("User is verified")
-//       // ...
-//     }).catch((error) => {
-//       // User couldn't sign in (bad verification code?)
-//       // ...
-//     });
-//   }
-//     return (
-//       <div>
-//         <h2>Login Form</h2>
-//         <form onSubmit={onSignInSubmit}>
-//           <div id="sign-in-button"></div>
-//           <input type="number" name="mobile" placeholder="Mobile number" required onChange={handleChange}/>
-//           <button type="submit">Submit</button>
-//         </form>
 
-//         <h2>Enter OTP</h2>
-//         <form onSubmit={onSubmitOTP}>
-//           <input type="number" name="otp" placeholder="OTP Number" required onChange={handleChange}/>
-//           <button type="submit">Submit</button>
-//         </form>
-//       </div>
-//     )
-// }
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom"
 
 import { auth, firebase } from '../firebase';
 
@@ -81,7 +40,7 @@ const Otp = () => {
 	const [otp, setotp] = useState('');
 	const [show, setshow] = useState(false);
 	const [final, setfinal] = useState('');
-
+	const history = useHistory()
 	// Sent OTP
 	const signin = () => {
 
@@ -108,6 +67,8 @@ const Otp = () => {
 		final.confirm(otp).then((result) => {
 			// success
       console.log("gg")
+	  history.push("/")
+
 		}).catch((err) => {
 			alert("Wrong code");
 		})
@@ -128,7 +89,9 @@ const Otp = () => {
 					<input type="text" placeholder={"Enter your OTP"}
 						onChange={(e) => { setotp(e.target.value) }}></input>
 					<br /><br />
+					{/* <Link to="/UserDashBoard"> */}
 					<button onClick={ValidateOtp}>Verify</button>
+					{/* </Link> */}
 				</div>
 			</center>
 		</div>

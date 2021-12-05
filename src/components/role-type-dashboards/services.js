@@ -11,6 +11,10 @@ import { Button } from "react-bootstrap"
 export default function Services() {
     const history = useHistory()
     let data = useLocation();
+    const checkinTime = data?.state?.checkinTime;
+    const checkoutTime = data?.state?.checkoutTime;
+
+    const totalTime = (checkinTime && checkoutTime && (checkoutTime - checkinTime) > 0 )? (checkoutTime - checkinTime)  : 1;
     const [loading, setLoading] = useState(false);
     const [worker, setWorker] = useState([]);
     const [selectedParkingSpot] = useState([]);
@@ -45,28 +49,28 @@ export default function Services() {
         if(parkingSpotPrice){
           setPsPrice(parkingSpotPrice)
         }
-        setTotalPrice(parkingSpotPrice + workerPrice);
+        setTotalPrice(parkingSpotPrice* (totalTime ? totalTime : 1) + workerPrice);
 
         console.log(currentUser.email);
-        const price  = 100+ 25 * 1;
+        //const price  = 100 + 25 * totalTime;
         setSelectedWorker(id);
 
-        if(window.confirm(`The price is ${price}. Do you want to continue.`))
+        //if(window.confirm(`The price is ${price}. Do you want to continue.`))
         { 
           // Confirm parking spot is reserved
-          // if(data?.state?.id){
-          //   firebase.firestore().collection("parking-spots").doc(data.state.id).update({
-          //     available: false,
-          //     reservedBy: currentUser.email,
-          //   });
-          // }
-          // // Confirm Worker is reserved
-          // if(id){
-          //   firebase.firestore().collection("workers").doc(id).update({
-          //     available: false,
-          //     reservedBy: currentUser.email,
-          //   });
-          // }
+          if(data?.state?.id){
+            firebase.firestore().collection("parking-spots").doc(data.state.id).update({
+              available: false,
+              reservedBy: currentUser.email,
+            });
+          }
+          // Confirm Worker is reserved
+          if(id){
+            firebase.firestore().collection("workers").doc(id).update({
+              available: false,
+              reservedBy: currentUser.email,
+            });
+          }
           alert("Thank you, you order is processed!");
           setPaymentConfirmation(true);
         }
@@ -116,9 +120,9 @@ export default function Services() {
                     </nav>
 
                     {paymentConfirmation && (
-                      <div class="container" style={{ display: "flex","marginTop": "10px"}}>
+                      <div class="container" style={{ "marginTop": "10px"}}>
                           <div class="home">
-                              <div class="homeWidgets" style={{ display: "flex", margin: "20px"}}>
+                              <div class="homeWidgets" style={{  margin: "20px"}}>
                               <div class="widgetLg">
                               <h3 class="widgetLgTitle">Payment confirmation</h3>
                               <h4 class="widgetLgTitle">The below amount has been debited from your wallet!</h4>
@@ -132,12 +136,12 @@ export default function Services() {
                                 <hr></hr>
                                 <tbody>
                                   <tr class="widgetLgTr">
-                                      <th class="widgetLgTh">Parking spot price</th>
-                                      <td class="widgetLgDate">{psPrice}</td>
+                                      <th class="widgetLgTh">Parking spot price * No of hours </th>
+                                      <td class="widgetLgDate">{psPrice} * {totalTime }</td>
                                   </tr> 
                                   <tr class="widgetLgTr">
                                       <th class="widgetLgTh">Worker price</th>
-                                      <td class="widgetLgDate">{workerPrice}</td>
+                                      <td class="widgetLgDate">{workerPrice} </td>
                                   </tr> 
                                   <hr></hr>
                                   <tr class="widgetLgTr">
@@ -149,12 +153,16 @@ export default function Services() {
                               </div>
                               </div>
                           </div>
+                          <Link to="/ratings" className="link">
+                              <PermIdentity className="sidebarIcon" />
+                              Ratings
+                          </Link>
                       </div>
                     )}
                     
                     {!paymentConfirmation && (
                       <div class="container" style={{ display: "flex", marginTop: "10px" }}>
-                        <div className="sidebar">
+                        <div className="sidebar" style={{ maxWidth:"180px" }}>
                           <div className="sidebarWrapper">
                             <div className="sidebarMenu">
                               <h3 className="sidebarTitle">Dashboard</h3>
@@ -165,52 +173,17 @@ export default function Services() {
                                     Available
                                   </li>
                                 </Link>
-                                {/* <Link to="/history" className="link">
-                                  <li className="sidebarListItem">
-                                    <Storefront className="sidebarIcon" />
-                                    History
-                                  </li>
-                                </Link> */}
                               </ul>
                             </div>
                           </div>
                         </div>
-                        <div class="home">
-                          {/* <div style={{ height: "60px" }}>
-                            <input
-                              onChange={handleChange}
-                              style={{ height: "40px" }}
-                              placeholder="Enter Location"
-                            />
-                            <input
-                              // onChange={handleChange}
-                              style={{ height: "40px" }}
-                              placeholder="Enter Checkin Time"
-                            />
-                            <input
-                              // onChange={handleChange}
-                              style={{ height: "40px" }}
-                              placeholder="Enter Checkout Time"
-                            />
-                            <input
-                              onChange={handleSizeChange}
-                              style={{ height: "40px" }}
-                              placeholder="Enter Size of the Vehicle"
-                            /> */}
-                            {/* <button
-                              class="btn btn-primary"
-                              style={{ display: "inline-block", marginLeft: "20px" }}
-                              onClick={handlerUserLocation}
-                            >
-                              Retrieve Parking Spots
-                            </button> */}
-                          </div>
+
                           {/* {userSelectedLocation.length > 0 && ( */}
                             <div>
                               <div class="featured">
                                 <div class="featuredItem">
                                   <span class="featuredTitle">
-                                    Available Serives:{" "}
+                                    Available Services: Wash/Dry Clean
                                     {/* <b>{userSelectedLocation}</b> */}
                                   </span>
                                   {/* <div class="featuredMoneyContainer">

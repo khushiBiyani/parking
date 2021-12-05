@@ -11,6 +11,10 @@ import { Button } from "react-bootstrap"
 export default function Services() {
     const history = useHistory()
     let data = useLocation();
+    const checkinTime = data.state.checkinTime;
+    const checkoutTime = data.state.checkoutTime;
+
+    const totalTime = checkinTime && checkoutTime && (checkoutTime - checkinTime) > 0 ? (checkoutTime - checkinTime)  : 1;
     const [loading, setLoading] = useState(false);
     const [worker, setWorker] = useState([]);
     const [selectedParkingSpot] = useState([]);
@@ -45,28 +49,28 @@ export default function Services() {
         if(parkingSpotPrice){
           setPsPrice(parkingSpotPrice)
         }
-        setTotalPrice(parkingSpotPrice + workerPrice);
+        setTotalPrice(parkingSpotPrice* (totalTime ? totalTime : 1) + workerPrice);
 
         console.log(currentUser.email);
-        const price  = 100+ 25 * 1;
+        //const price  = 100 + 25 * totalTime;
         setSelectedWorker(id);
 
-        if(window.confirm(`The price is ${price}. Do you want to continue.`))
+        //if(window.confirm(`The price is ${price}. Do you want to continue.`))
         { 
           // Confirm parking spot is reserved
-          // if(data?.state?.id){
-          //   firebase.firestore().collection("parking-spots").doc(data.state.id).update({
-          //     available: false,
-          //     reservedBy: currentUser.email,
-          //   });
-          // }
-          // // Confirm Worker is reserved
-          // if(id){
-          //   firebase.firestore().collection("workers").doc(id).update({
-          //     available: false,
-          //     reservedBy: currentUser.email,
-          //   });
-          // }
+          if(data?.state?.id){
+            firebase.firestore().collection("parking-spots").doc(data.state.id).update({
+              available: false,
+              reservedBy: currentUser.email,
+            });
+          }
+          // Confirm Worker is reserved
+          if(id){
+            firebase.firestore().collection("workers").doc(id).update({
+              available: false,
+              reservedBy: currentUser.email,
+            });
+          }
           alert("Thank you, you order is processed!");
           setPaymentConfirmation(true);
         }
@@ -132,12 +136,12 @@ export default function Services() {
                                 <hr></hr>
                                 <tbody>
                                   <tr class="widgetLgTr">
-                                      <th class="widgetLgTh">Parking spot price</th>
-                                      <td class="widgetLgDate">{psPrice}</td>
+                                      <th class="widgetLgTh">Parking spot price * No of hours </th>
+                                      <td class="widgetLgDate">{psPrice} * {totalTime }</td>
                                   </tr> 
                                   <tr class="widgetLgTr">
                                       <th class="widgetLgTh">Worker price</th>
-                                      <td class="widgetLgDate">{workerPrice}</td>
+                                      <td class="widgetLgDate">{workerPrice} </td>
                                   </tr> 
                                   <hr></hr>
                                   <tr class="widgetLgTr">
@@ -149,6 +153,11 @@ export default function Services() {
                               </div>
                               </div>
                           </div>
+
+                          <Link to="/" className="link">
+                              <PermIdentity className="sidebarIcon" />
+                              Go Home
+                          </Link>
                       </div>
                     )}
                     
@@ -244,7 +253,7 @@ export default function Services() {
                                         {worker.available && (
                                           <button
                                             class="btn btn-primary"
-                                            onClick={() => handleReserveSlot(worker.id, worker.hourlyRate ? worker.hourlyRate: 100 )}
+                                            onClick={() => handleReserveSlot(worker.id, worker.hourlyRate ? worker.hourlyRate: 25 )}
                                           >
                                             <svg
                                               class="MuiSvgIcon-root widgetSmIcon"

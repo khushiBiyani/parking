@@ -9,6 +9,8 @@ export default function UserDashboard() {
   const [loading, setLoading] = useState(false);
   const [parkingSpots, setParkingSpots] = useState([]);
   const [size, setSize] = useState([]);
+  const [checkinTime, setCheckinTime] = useState([]);
+  const [checkoutTime, setCheckoutTime] = useState([]);
   const [userSelectedLocation, setUserLocation] = useState([]);
   const [textInput, setTextInput] = useState([]);
   const [selectedParkingSpot, setSelectedParkingSpot] = useState([]);
@@ -58,9 +60,10 @@ export default function UserDashboard() {
     getParkingSpots(userLocation, size);
   }
  
+
   function handleReserveSlot(id) {
     console.log("handleReserveSlot" + id);
-    console.log(currentUser.email);
+    // console.log(currentUser.email);
     // firebase.firestore().collection("parking-spots").doc(id).update({
     //   available: false,
     //   reservedBy: currentUser.email,
@@ -74,14 +77,13 @@ export default function UserDashboard() {
     setSize(event.target.value);
   }
  
-  // function handleReserveSlot() {
-  //   alert("handleReserveSlot");
-  // }
- 
-  // useEffect(() => {
-  //   getParkingSpots();
-  //   // eslint-disable-next-line
-  // }, []);
+  const handleCheckinChange = (event) => {
+    setCheckinTime(event.target.value);
+  }
+
+  const handleCheckoutChange = (event) => {
+    setCheckoutTime(event.target.value);
+  }
  
   return (
     <>
@@ -111,33 +113,63 @@ export default function UserDashboard() {
           </div>
           <div class="home">
             <div>
-              <input
-                onChange={handleChange}
-                style={{ height: "40px" }}
-                placeholder="Enter Location"
-              />
-              <input
-                // onChange={handleChange}
-                style={{ height: "40px" }}
-                placeholder="Enter Checkin Time"
-              />
-              <input
-                // onChange={handleChange}
-                style={{ height: "40px" }}
-                placeholder="Enter Checkout Time"
-              />
-              <input
-                onChange={handleSizeChange}
-                style={{ height: "40px" }}
-                placeholder="Enter Size of the Vehicle"
-              />
-              <button
-                class="btn btn-primary"
-                style={{ display: "inline-block", marginLeft: "20px" }}
-                onClick={handlerUserLocation}
-              >
-                Retrieve Parking Spots
-              </button>
+            <div class="widgetLg">
+                    <h3 class="widgetLgTitle">Parking Availability: </h3>
+                    <table class="widgetLgTable">
+                        <tr class="widgetLgTr">
+                          <th class="widgetLgTh">Location</th>
+                          <td class="widgetLgUser">
+                          <input
+                                onChange={handleChange}
+                                style={{ height: "40px" }}
+                                placeholder="Location" 
+                          />
+                          </td>
+                        </tr> 
+                        <tr class="widgetLgTr">
+                          <th class="widgetLgTh">Check-in Time</th>
+                          <td class="widgetLgUser">
+                          <input
+                                onChange={handleCheckinChange}
+                                style={{ height: "40px" }}
+                                placeholder="Checkin hour"
+                          />
+                          </td>
+                        </tr> 
+                        <tr class="widgetLgTr">
+                          <th class="widgetLgTh">Check-out Time</th>
+                          <td class="widgetLgUser">
+                          <input
+                                onChange={handleCheckoutChange}
+                                style={{ height: "40px" }}
+                                placeholder="Checkout hour"
+                          />
+                          </td>
+                        </tr> 
+                        <tr class="widgetLgTr">
+                          <th class="widgetLgTh">Vehicle Size</th>
+                          <td class="widgetLgUser">
+                          <input
+                                onChange={handleSizeChange}
+                                style={{ height: "40px" }}
+                                placeholder="Size"
+                          />
+                          </td>
+                        </tr> 
+                        <tr class="widgetLgTr">
+                          <th class="widgetLgTh"></th>
+                          <td class="widgetLgUser">
+                            <button
+                                  class="btn btn-primary"
+                                  style={{ display: "inline-block", marginTop: "20px" }}
+                                  onClick={handlerUserLocation}
+                                >
+                                  Retrieve
+                            </button>
+                          </td>
+                        </tr> 
+                    </table>
+                  </div>
             </div>
             {userSelectedLocation.length > 0 && (
               <div>
@@ -160,64 +192,6 @@ export default function UserDashboard() {
                   class="homeWidgets"
                   style={{ display: "flex", margin: "20px" }}
                 >
-                  {/* <div class="widgetSm">
-                    <span class="widgetSmTitle">Parking Spots</span>
-                    <ul class="widgetSmList">
-                      {parkingSpots.map((parkingSpot) => (
-                        <li class="widgetSmListItem" key={parkingSpot.id}>
-                          <DirectionsCar
-                            style={{ width: "80px", height: "80px" }}
-                          />
-                          <div class="widgetSmUser">
-                            <span class="">{parkingSpot.slot}</span>
-                            <span class="widgetSmUserTitle">
-                              Spot Size: {parkingSpot.size}
-                            </span>
-                          </div>
-                          
-                          <Link
-                            to={{
-                              pathname: "/services",
-                              state: { ...parkingSpot }
-                            }}
-                          >
-                          {parkingSpot.available && (
-                            <button
-                              class="btn btn-primary"
-                              onClick={() => handleReserveSlot(parkingSpot.id)}
-                            >
-                              <svg
-                                class="MuiSvgIcon-root widgetSmIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                              >
-                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
-                              </svg>
-                              Reserve
-                            </button>
-                          )}</Link>
-                          {!parkingSpot.available && (
-                            <button
-                              class="btn btn-secondary"
-                              onClick={() => alert("Aleready reserved!")}
-                            >
-                              <svg
-                                class="MuiSvgIcon-root widgetSmIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                              >
-                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
-                              </svg>
-                              Reserve
-                            </button>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div> */}
-
                   <div class="widgetLg">
                     <h3 class="widgetLgTitle">List of users</h3>
                     <table class="widgetLgTable">
@@ -244,7 +218,7 @@ export default function UserDashboard() {
                           <Link
                             to={{
                               pathname: "/services",
-                              state: { ...parkingSpot }
+                              state: { ...parkingSpot, checkinTime, checkoutTime }
                             }}
                           >
                             <button

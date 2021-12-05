@@ -11,10 +11,10 @@ import { Button } from "react-bootstrap"
 export default function Services() {
     const history = useHistory()
     let data = useLocation();
-    const checkinTime = data.state.checkinTime;
-    const checkoutTime = data.state.checkoutTime;
+    const checkinTime = data?.state?.checkinTime;
+    const checkoutTime = data?.state?.checkoutTime;
 
-    const totalTime = checkinTime && checkoutTime && (checkoutTime - checkinTime) > 0 ? (checkoutTime - checkinTime)  : 1;
+    const totalTime = (checkinTime && checkoutTime && (checkoutTime - checkinTime) > 0 )? (checkoutTime - checkinTime)  : 1;
     const [loading, setLoading] = useState(false);
     const [worker, setWorker] = useState([]);
     const [selectedParkingSpot] = useState([]);
@@ -120,9 +120,9 @@ export default function Services() {
                     </nav>
 
                     {paymentConfirmation && (
-                      <div class="container" style={{ display: "flex","marginTop": "10px"}}>
+                      <div class="container" style={{ "marginTop": "10px"}}>
                           <div class="home">
-                              <div class="homeWidgets" style={{ display: "flex", margin: "20px"}}>
+                              <div class="homeWidgets" style={{  margin: "20px"}}>
                               <div class="widgetLg">
                               <h3 class="widgetLgTitle">Payment confirmation</h3>
                               <h4 class="widgetLgTitle">The below amount has been debited from your wallet!</h4>
